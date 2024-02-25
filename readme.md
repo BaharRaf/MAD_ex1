@@ -9,7 +9,14 @@
 ## Questions
 ### Describe how Kotlin handles null safety. What are nullable types and non-null types in Kotlin? (0,5 points)
 
-<span style="color:blue">
+<span style="color:blue">Provide your answer here!</span>
+> Note: you can also use code snippets to illustrate your answer. 
+
+```kotlin 
+// example code snippet
+val a: String = "value" // non-null type
+```
+
 Kotlin's null safety is designed to eliminate the risk of null reference exceptions, a common issue in many programming languages. Kotlin differentiates between nullable and non-null types at the type system level.
 
 Non-null types: These are types that cannot hold a null value. Trying to assign null to such a type will result in a compile-time error.
@@ -21,14 +28,6 @@ Nullable types: These are types that can hold a null value. They are declared by
 val b: String? = null // nullable type, can be assigned null
 ```
 To safely operate on nullable types, Kotlin provides several mechanisms, including safe calls (?.), the Elvis operator (?:), and the !! operator for asserting a non-null value.
-</span>
-> Note: you can also use code snippets to illustrate your answer. 
-
-```kotlin 
-// example code snippet
-val a: String = "value" // non-null type
-```
-
 
 
 
