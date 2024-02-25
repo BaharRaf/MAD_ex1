@@ -49,7 +49,21 @@ class App {
      */
     val checkUserInputAgainstGeneratedNumber: (Int, Int) -> CompareResult = { input, generatedNumber ->
         //TODO implement the function
-        CompareResult(0, 0)   // return value is a placeholder
+        val inputStr = input.toString()
+        val generatedStr = generatedNumber.toString()
+        if(inputStr.length != generatedStr.length) throw java.lang.IllegalArgumentException("Input and generated number must have the same number of digits.")
+
+        var n = 0 // correct digits regardless of position
+        var m = 0 // correct digits in the correct position
+        inputStr.forEachIndexed { index, c ->
+            if (generatedStr.contains(c)) {
+                n++
+                if (c == generatedStr[index]) {
+                    m++
+                }
+            }
+        }
+        CompareResult(n, m)   // return value is a placeholder
     }
 }
 
