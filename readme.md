@@ -17,6 +17,7 @@
 val a: String = "value" // non-null type
 ```
 
+
 Kotlin's null safety is designed to eliminate the risk of null reference exceptions, a common issue in many programming languages. Kotlin differentiates between nullable and non-null types at the type system level.
 
 Non-null types: These are types that cannot hold a null value. Trying to assign null to such a type will result in a compile-time error.
@@ -34,6 +35,12 @@ To safely operate on nullable types, Kotlin provides several mechanisms, includi
 ### What are lambda expressions and higher order functions in Kotlin? Why would you store a function inside a variable? (0,5 points)
 
 <span style="color:blue">Provide your answer here!</span>
+
+Lambda expressions in Kotlin are a concise way to define an anonymous function that can be passed around and executed. 
+
+Higher-order functions are functions that take functions as parameters or return a function.
+
+Storing a function in a variable allows for greater flexibility and code reuse. It enables you to pass behavior as an argument to functions, return them as values from other functions, and operate on them as you would with any other data type.
 
 ### Provide a solution for the following number guessing game inside `App.kt`. (3 points)
 
