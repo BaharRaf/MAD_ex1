@@ -6,9 +6,18 @@ import java.util.Scanner
 import kotlin.random.Random
 
 class App {
-    // Game logic for a number guessing game
+
+    // Scanner for reading user input from the console.
     private val scanner = Scanner(System.`in`)
+
+    /**
+     * Initiates and controls the flow of the number guessing game.
+     * @param digitsToGuess The number of digits the generated number should have, default is 4.
+     */
+    // Game logic for a number guessing game
     fun playNumberGame(digitsToGuess: Int = 4) {
+        // Generate a random number with the specified number of unique digits.
+
         //TODO: build a menu which calls the functions and works with the return values
 
         val generatedNumber = generateRandomNonRepeatingNumber(digitsToGuess)
@@ -16,10 +25,12 @@ class App {
         println("I've generated a number with $digitsToGuess unique digits. Try to guess it!")
         println("Enter your guess or type 'exit' to quit.")
 
+        // Game loop continues until the user decides to exit.
         while (true) {
             print("Your guess: ")
             val guess = scanner.nextLine()
 
+            // Check if the user wants to exit the game.
             if (guess.equals("exit", ignoreCase = true)) {
                 println("Game over. The number was $generatedNumber. Thanks for playing!")
                 break
@@ -27,11 +38,13 @@ class App {
 
             try {
                 val guessInt = guess.toInt()
+                // Validate the length of the user's guess.
                 if (guess.length != digitsToGuess) {
                     println("Your guess must have exactly $digitsToGuess digits. Please try again.")
                     continue
                 }
 
+                // Compare the user's guess with the generated number and provide feedback.
                 val result = checkUserInputAgainstGeneratedNumber(guessInt, generatedNumber)
                 if (result.m == digitsToGuess) {
                     println("Congratulations! You've guessed the number correctly: $generatedNumber")
@@ -62,6 +75,7 @@ class App {
     val generateRandomNonRepeatingNumber: (Int) -> Int = { length ->
         //TODO implement the function
         if (length !in 1..9) throw IllegalArgumentException("Length must be between 1 and 9.")
+        // Generate a shuffled list of digits 1-9 and join them to form a number.
         val digits = (1..9).toList().shuffled().take(length).joinToString("").toInt()
         digits
     }
@@ -85,26 +99,37 @@ class App {
      */
     val checkUserInputAgainstGeneratedNumber: (Int, Int) -> CompareResult = { input, generatedNumber ->
         //TODO implement the function
-        val inputStr = input.toString()
-        val generatedStr = generatedNumber.toString()
-        if (inputStr.length != generatedStr.length) throw IllegalArgumentException("Input and generated number must have the same number of digits.")
+            val inputStr = input.toString()
+            val generatedStr = generatedNumber.toString()
 
-        var n = 0 // Correct digits regardless of position
-        var m = 0 // Correct digits in the correct position
+            // Ensure both numbers have the same length.
+            if (inputStr.length != generatedStr.length) throw IllegalArgumentException("Input and generated number must have the same number of digits.")
 
-        inputStr.forEachIndexed { index, c ->
-            if (generatedStr.contains(c)) {
-                n++
+            var n = 0 // Correct digits regardless of position
+            var m = 0 // Correct digits in the correct position
+
+            // Count occurrences of each digit in both the input and generated numbers.
+            val generatedDigitsCount = generatedStr.groupingBy { it }.eachCount()
+            val inputDigitsCount = inputStr.groupingBy { it }.eachCount()
+
+            inputStr.forEachIndexed { index, c ->
                 if (c == generatedStr[index]) {
+                    // Increment both counters if the digit is in the correct position.
                     m++
+                    n++
+                } else if (generatedStr.contains(c)) {
+                    // Only count as a correct digit (n) if the number of occurrences in the input is less than or equal to that in the generated number
+                    // This prevents counting extra occurrences of the same digit in the input
+                    if (inputDigitsCount[c] ?: 0 <= generatedDigitsCount[c] ?: 0) {
+                        // Increment n if the digit is correct but in the wrong position, without counting duplicates.
+                        n++
+                    }
                 }
             }
+
+            CompareResult(n, m)
         }
-
-        CompareResult(n, m)
-    }
 }
-
 
 fun main() {
     println("Hello World!")
